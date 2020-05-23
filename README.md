@@ -1,4 +1,4 @@
-# google_fonts
+# dart_code_viewer
 
 The `dart_code_viewer` package for Flutter allows you to easily show and copy dart code in your Flutter application.
 
