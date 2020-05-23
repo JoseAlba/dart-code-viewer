@@ -1,0 +1,4 @@
+name: A dartpad code viewer example
+mode: flutter
+files:
+  - name: main.dart
