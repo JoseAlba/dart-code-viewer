@@ -11,8 +11,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeMode _themeMode;
-  IconData iconToggle;
+  late ThemeMode _themeMode;
+  late IconData iconToggle;
 
   initState() {
     super.initState();
