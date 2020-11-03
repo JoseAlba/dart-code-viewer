@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'dart_code_viewer_theme.dart';
-import 'prehighlighter.dart';
+import 'pre_highlighter.dart';
 
 /// A code viewer for the dart language.
 ///
@@ -58,7 +58,7 @@ class DartCodeViewer extends StatelessWidget {
   /// string by adding an r before the string.
   const DartCodeViewer(
     this.data, {
-    Key key,
+    Key? key,
     this.baseStyle,
     this.classStyle,
     this.commentStyle,
@@ -72,8 +72,7 @@ class DartCodeViewer extends StatelessWidget {
     this.showCopyButton,
     this.height,
     this.width,
-  }) : assert(data != null, 'A non-null String must be provided to a DartCodeViewer widget.'),
-      super(key: key);
+  }) : super(key: key);
 
   /// Create a DartCodeViewer based of one [TextStyle]. Optional [Color] parameters
   /// which change the TextStyle color for that highlighter type.
@@ -83,32 +82,31 @@ class DartCodeViewer extends StatelessWidget {
   /// Useful parameter when you want to use one [TextStyle].
   factory DartCodeViewer.textColor(
     String data, {
-    TextStyle textStyle,
-    Color baseColor,
-    Color classColor,
-    Color commentColor,
-    Color constantColor,
-    Color keywordColor,
-    Color numberColor,
-    Color punctuationColor,
-    Color stringColor,
-    Color backgroundColor,
-    Text copyButtonText,
-    bool showCopyButton,
-    double height,
-    double width,
+    TextStyle? textStyle,
+    Color? baseColor,
+    Color? classColor,
+    Color? commentColor,
+    Color? constantColor,
+    Color? keywordColor,
+    Color? numberColor,
+    Color? punctuationColor,
+    Color? stringColor,
+    Color? backgroundColor,
+    Text? copyButtonText,
+    bool? showCopyButton,
+    double? height,
+    double? width,
   }) {
-    TextStyle _defaultCodeStyle = textStyle ?? GoogleFonts.robotoMono(fontSize: 12);
     return DartCodeViewer(
       data,
-      baseStyle: _defaultCodeStyle.copyWith(color: baseColor),
-      classStyle: _defaultCodeStyle.copyWith(color: classColor),
-      commentStyle: _defaultCodeStyle.copyWith(color: commentColor),
-      constantStyle: _defaultCodeStyle.copyWith(color: constantColor),
-      keywordStyle: _defaultCodeStyle.copyWith(color: keywordColor),
-      numberStyle: _defaultCodeStyle.copyWith(color: numberColor),
-      punctuationStyle: _defaultCodeStyle.copyWith(color: punctuationColor),
-      stringStyle: _defaultCodeStyle.copyWith(color: stringColor),
+      baseStyle: textStyle?.copyWith(color: baseColor),
+      classStyle: textStyle?.copyWith(color: classColor),
+      commentStyle: textStyle?.copyWith(color: commentColor),
+      constantStyle: textStyle?.copyWith(color: constantColor),
+      keywordStyle: textStyle?.copyWith(color: keywordColor),
+      numberStyle: textStyle?.copyWith(color: numberColor),
+      punctuationStyle: textStyle?.copyWith(color: punctuationColor),
+      stringStyle: textStyle?.copyWith(color: stringColor),
       backgroundColor: backgroundColor,
       copyButtonText: copyButtonText,
       showCopyButton: showCopyButton,
@@ -249,20 +247,20 @@ class DartCodeViewer extends StatelessWidget {
   final String data;
 
   /// The text style for the plain text in code.
-  final TextStyle baseStyle;
+  final TextStyle? baseStyle;
 
   /// The text style for the code types in the code.
   ///
   /// For example:
   /// * The class name.
   /// * StatelessWidget and StatefulWidget.
-  final TextStyle classStyle;
+  final TextStyle? classStyle;
 
   /// The text style for the commented out code.
-  final TextStyle commentStyle;
+  final TextStyle? commentStyle;
 
   /// The text style for the constant style code.
-  final TextStyle constantStyle;
+  final TextStyle? constantStyle;
 
   /// The text style for keywords. For example:
   /// * else
@@ -271,94 +269,110 @@ class DartCodeViewer extends StatelessWidget {
   /// * external
   /// * factory
   /// * false
-  final TextStyle keywordStyle;
+  final TextStyle? keywordStyle;
 
   /// The text style for numbers within the code.
-  final TextStyle numberStyle;
+  final TextStyle? numberStyle;
 
   /// The text style for punctuation code like periods and commas.
-  final TextStyle punctuationStyle;
+  final TextStyle? punctuationStyle;
 
   /// The text style for Strings. For example the data when using the [Text] widget.
-  final TextStyle stringStyle;
+  final TextStyle? stringStyle;
 
   /// The background Color of the code. By default it is [Theme.of(context).colorScheme.background].
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// The text shown in the copy button by default it is 'COPY ALL'.
-  final Text copyButtonText;
+  final Text? copyButtonText;
 
   /// Shows copy button that lets user copy all the code as a raw string. By
   /// default the button is showing.
-  final bool showCopyButton;
+  final bool? showCopyButton;
 
   /// The height of the [DartCodeViewer] by default it uses the [MediaQuery.of(context).size.height]
-  final double height;
+  final double? height;
+
   /// The width of the [DartCodeViewer] by default it uses the [MediaQuery.of(context).size.width]
-  final double width;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
-    final codeTextStyle = GoogleFonts.robotoMono(
-        fontSize: 12 * MediaQuery.of(context).textScaleFactor,
-    );
+    final codeTextStyle = Theme.of(context).textTheme.bodyText1;
 
-    /// Uses device brightness to choose what type of theme to return.
-    final brightness = WidgetsBinding.instance.window.platformBrightness;
-    bool lightModeOn = brightness == Brightness.light;
+    var lightModeOn = Theme.of(context).brightness == Brightness.light;
 
     // These are defaults for the different types of text styles. The default
     // returns two different types of styles depending on the brightness of the
     // application.
-    TextStyle _defaultBaseStyle = codeTextStyle.copyWith(
-      color: lightModeOn ? Colors.blueGrey.shade800 : Colors.blueGrey.shade50
+    var _defaultBaseStyle = codeTextStyle?.copyWith(
+      color: lightModeOn ? Colors.blueGrey.shade800 : Colors.blueGrey.shade50,
     );
-    TextStyle _defaultClassStyle = codeTextStyle.copyWith(
-      color: lightModeOn ? Colors.purple.shade500 : Colors.purple.shade200
+    var _defaultClassStyle = codeTextStyle?.copyWith(
+      color: lightModeOn ? Colors.purple.shade500 : Colors.purple.shade200,
     );
-    TextStyle _defaultCommentStyle = codeTextStyle.copyWith(
-      color: lightModeOn ? Colors.pink.shade600 : Colors.pink.shade300
+    var _defaultCommentStyle = codeTextStyle?.copyWith(
+      color: lightModeOn ? Colors.pink.shade600 : Colors.pink.shade300,
     );
-    TextStyle _defaultConstantStyle = codeTextStyle.copyWith(
-      color: lightModeOn ? Colors.indigo.shade500 : Colors.yellow.shade700
+    var _defaultConstantStyle = codeTextStyle?.copyWith(
+      color: lightModeOn ? Colors.indigo.shade500 : Colors.yellow.shade700,
     );
-    TextStyle _defaultKeywordStyle = codeTextStyle.copyWith(
-      color: lightModeOn ? Colors.indigo.shade500 : Colors.cyan.shade300
+    var _defaultKeywordStyle = codeTextStyle?.copyWith(
+      color: lightModeOn ? Colors.indigo.shade500 : Colors.cyan.shade300,
     );
-    TextStyle _defaultNumberStyle = codeTextStyle.copyWith(
-      color: lightModeOn ? Colors.red.shade700 : Colors.yellow.shade700
+    var _defaultNumberStyle = codeTextStyle?.copyWith(
+      color: lightModeOn ? Colors.red.shade700 : Colors.yellow.shade700,
     );
-    TextStyle _defaultPunctuationalStyle = codeTextStyle.copyWith(
-      color: lightModeOn ? Colors.blueGrey.shade800 : Colors.blueGrey.shade50
+    var _defaultPunctuationalStyle = codeTextStyle?.copyWith(
+      color: lightModeOn ? Colors.blueGrey.shade800 : Colors.blueGrey.shade50,
     );
-    TextStyle _defaultStringStyle = codeTextStyle.copyWith(
-      color: lightModeOn ? Colors.green.shade700 : Colors.lightGreen.shade400
+    var _defaultStringStyle = codeTextStyle?.copyWith(
+      color: lightModeOn ? Colors.green.shade700 : Colors.lightGreen.shade400,
     );
 
-    Text _defaultCopyButtonText = Text(''
-      'COPY ALL',
-      style: Theme.of(context).textTheme.button.copyWith(
-        color: Colors.white,
-        fontWeight: FontWeight.w500,
-      ),
-    );
-    bool _defaultShowCopyButton = true;
+    var _defaultCopyButtonText = Text('COPY ALL');
+    var _defaultShowCopyButton = true;
 
-    DartCodeViewerThemeData dartCodeViewerThemeData = DartCodeViewerTheme.of(context);
+    var dartCodeViewerThemeData = DartCodeViewerTheme.of(context);
     dartCodeViewerThemeData = dartCodeViewerThemeData.copyWith(
-      baseStyle: baseStyle ?? dartCodeViewerThemeData.baseStyle ?? _defaultBaseStyle,
-      classStyle: classStyle ?? dartCodeViewerThemeData.classStyle ?? _defaultClassStyle,
-      commentStyle: commentStyle ?? dartCodeViewerThemeData.commentStyle ?? _defaultCommentStyle,
-      constantStyle: constantStyle ?? dartCodeViewerThemeData.constantStyle ?? _defaultConstantStyle,
-      keywordStyle: keywordStyle ?? dartCodeViewerThemeData.keywordStyle ?? _defaultKeywordStyle,
-      numberStyle: numberStyle ?? dartCodeViewerThemeData.numberStyle ?? _defaultNumberStyle,
-      punctuationStyle: punctuationStyle ?? dartCodeViewerThemeData.punctuationStyle ?? _defaultPunctuationalStyle,
-      stringStyle: stringStyle ?? dartCodeViewerThemeData.stringStyle ?? _defaultStringStyle,
-      backgroundColor: backgroundColor ?? dartCodeViewerThemeData.backgroundColor ?? Theme.of(context).colorScheme.background,
-      copyButtonText: copyButtonText ?? dartCodeViewerThemeData.copyButtonText ?? _defaultCopyButtonText,
-      showCopyButton: showCopyButton ?? dartCodeViewerThemeData.showCopyButton ?? _defaultShowCopyButton,
-      height: height ?? dartCodeViewerThemeData.height ?? MediaQuery.of(context).size.height,
-      width: width ?? dartCodeViewerThemeData.width ?? MediaQuery.of(context).size.width,
+      baseStyle:
+          baseStyle ?? dartCodeViewerThemeData.baseStyle ?? _defaultBaseStyle,
+      classStyle: classStyle ??
+          dartCodeViewerThemeData.classStyle ??
+          _defaultClassStyle,
+      commentStyle: commentStyle ??
+          dartCodeViewerThemeData.commentStyle ??
+          _defaultCommentStyle,
+      constantStyle: constantStyle ??
+          dartCodeViewerThemeData.constantStyle ??
+          _defaultConstantStyle,
+      keywordStyle: keywordStyle ??
+          dartCodeViewerThemeData.keywordStyle ??
+          _defaultKeywordStyle,
+      numberStyle: numberStyle ??
+          dartCodeViewerThemeData.numberStyle ??
+          _defaultNumberStyle,
+      punctuationStyle: punctuationStyle ??
+          dartCodeViewerThemeData.punctuationStyle ??
+          _defaultPunctuationalStyle,
+      stringStyle: stringStyle ??
+          dartCodeViewerThemeData.stringStyle ??
+          _defaultStringStyle,
+      backgroundColor: backgroundColor ??
+          dartCodeViewerThemeData.backgroundColor ??
+          Theme.of(context).colorScheme.background,
+      copyButtonText: copyButtonText ??
+          dartCodeViewerThemeData.copyButtonText ??
+          _defaultCopyButtonText,
+      showCopyButton: showCopyButton ??
+          dartCodeViewerThemeData.showCopyButton ??
+          _defaultShowCopyButton,
+      height: height ??
+          dartCodeViewerThemeData.height ??
+          MediaQuery.of(context).size.height,
+      width: width ??
+          dartCodeViewerThemeData.width ??
+          MediaQuery.of(context).size.width,
     );
 
     return DartCodeViewerTheme(
@@ -375,9 +389,12 @@ class DartCodeViewer extends StatelessWidget {
     );
   }
 
-  InlineSpan codifyString(String content, DartCodeViewerThemeData dartCodeViewerThemeData) {
-    List<TextSpan> textSpans = [];
-    final codeSpans = DartSyntaxPrehighlighter().format(content);
+  InlineSpan codifyString(
+    String content,
+    DartCodeViewerThemeData dartCodeViewerThemeData,
+  ) {
+    var textSpans = <TextSpan>[];
+    final codeSpans = DartSyntaxPreHighlighter().format(content);
     // Converting CodeSpan to TextSpan by first converting to a string and then TextSpan.
     for (final span in codeSpans) {
       textSpans.add(stringToTextSpan(span.toString(), dartCodeViewerThemeData));
@@ -385,11 +402,15 @@ class DartCodeViewer extends StatelessWidget {
     return TextSpan(children: textSpans);
   }
 
-  TextSpan stringToTextSpan(String string, DartCodeViewerThemeData dartCodeViewerThemeData) {
+  TextSpan stringToTextSpan(
+    String string,
+    DartCodeViewerThemeData dartCodeViewerThemeData,
+  ) {
     return TextSpan(
       style: () {
-        String styleString = RegExp(r'codeStyle.\w*').firstMatch(string).group(0);
-        DartCodeViewerThemeData dartCodeViewerTheme = dartCodeViewerThemeData;
+        final String? styleString =
+            RegExp(r'codeStyle.\w*').firstMatch(string)?.group(0);
+        var dartCodeViewerTheme = dartCodeViewerThemeData;
 
         switch (styleString) {
           case 'codeStyle.baseStyle':
@@ -413,8 +434,8 @@ class DartCodeViewer extends StatelessWidget {
         }
       }(),
       text: () {
-        String textString = RegExp('\'.*\'').firstMatch(string).group(0);
-        String subString = textString.substring(1, textString.length - 1);
+        var textString = RegExp('\'.*\'').firstMatch(string)?.group(0);
+        var subString = textString!.substring(1, textString.length - 1);
         return decodeString(subString);
       }(),
     );
@@ -424,9 +445,9 @@ class DartCodeViewer extends StatelessWidget {
   /// numbers.
   String decodeString(String string) {
     return string
-      .replaceAll(r'\u000a', '\n')
-      .replaceAll(r'\u0027', '\'')
-      .replaceAll(r'\u009', '\t');
+        .replaceAll(r'\u000a', '\n')
+        .replaceAll(r'\u0027', '\'')
+        .replaceAll(r'\u0009', '\t');
   }
 }
 
@@ -439,10 +460,8 @@ class _DartCodeViewerPage extends StatelessWidget {
     final _richTextCode = code;
     final _plainTextCode = _richTextCode.toPlainText();
 
-    final brightness = WidgetsBinding.instance.window.platformBrightness;
-    bool lightModeOn = brightness == Brightness.light;
     void _showSnackBarOnCopySuccess(dynamic result) {
-      Scaffold.of(context).showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Copied to Clipboard'),
         ),
@@ -450,7 +469,7 @@ class _DartCodeViewerPage extends StatelessWidget {
     }
 
     void _showSnackBarOnCopyFailure(Object exception) {
-      Scaffold.of(context).showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failure to copy to clipboard: $exception'),
         ),
@@ -460,21 +479,12 @@ class _DartCodeViewerPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (DartCodeViewerTheme.of(context).showCopyButton)
-          FlatButton(
-            color: lightModeOn
-                ? Colors.black.withOpacity(0.15)
-                : Colors.white.withOpacity(0.15),
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(4)),
-            ),
+        if (DartCodeViewerTheme.of(context).showCopyButton!)
+          ElevatedButton(
             onPressed: () async {
-              await Clipboard.setData(
-                  ClipboardData(text: _plainTextCode)
-              ).then(_showSnackBarOnCopySuccess)
-               .catchError(_showSnackBarOnCopyFailure);
+              await Clipboard.setData(ClipboardData(text: _plainTextCode))
+                  .then(_showSnackBarOnCopySuccess)
+                  .catchError(_showSnackBarOnCopyFailure);
             },
             child: DartCodeViewerTheme.of(context).copyButtonText,
           ),

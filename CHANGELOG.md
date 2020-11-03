@@ -1,4 +1,15 @@
 
+# [0.0.2] - 2020-11-03
+
+The dart code viewer package has been updated and has been updated to use
+not null be default.
+
+The dart code viewer package is using the elevated button because it the 
+elevated button is in the new button Universe. This will make it easier to
+theme the buttons within the dart code viewer.
+
+Removed dependency for the Google fonts package.
+
 # [0.0.1] - 2020-05-22
 
 The initial release has DartCodeViewer, DartCodeViewerTheme, and DartCodeViewerThemeData.

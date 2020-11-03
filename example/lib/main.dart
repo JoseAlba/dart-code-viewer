@@ -5,20 +5,62 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeMode _themeMode;
+  IconData iconToggle;
+
+  initState() {
+    super.initState();
+    _themeMode = ThemeMode.system;
+    iconToggle = Icons.toggle_on;
+  }
+
+  toggleThemeMode() {
+    if (_themeMode == ThemeMode.light) {
+      _themeMode = ThemeMode.dark;
+      iconToggle = Icons.toggle_off;
+    } else if (_themeMode == ThemeMode.dark) {
+      _themeMode = ThemeMode.light;
+      iconToggle = Icons.toggle_on;
+    } else {
+      if (Brightness.light == Theme.of(context).brightness) {
+        _themeMode = ThemeMode.dark;
+        iconToggle = Icons.toggle_off;
+      } else {
+        _themeMode = ThemeMode.light;
+        iconToggle = Icons.toggle_on;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        backgroundColor: Colors.white,
-      ),
-      darkTheme: ThemeData(
-        backgroundColor: Colors.black,
-      ),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: _themeMode,
       home: Scaffold(
-        appBar: AppBar(title: Text('Dart Code Viewer Example')),
-        body: DartCodeViewer(r'''
+        appBar: AppBar(
+          title: Text('Dart Code Viewer Example'),
+          actions: [
+            IconButton(
+              icon: Icon(iconToggle),
+              onPressed: () {
+                setState(() {
+                  toggleThemeMode();
+                });
+              },
+            ),
+          ],
+        ),
+        body: DartCodeViewer(
+          r'''
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -399,7 +441,7 @@ class _DartCodeViewerPage extends StatelessWidget {
 }
 
       ''',
-       ),
+        ),
       ),
     );
   }
