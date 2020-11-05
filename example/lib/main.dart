@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:dart_code_viewer/dart_code_viewer.dart';
-import 'package:mustache_template/mustache.dart';
 
 void main() {
   runApp(MyApp());
