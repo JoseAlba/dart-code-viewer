@@ -4,7 +4,7 @@
 The dart code viewer package has been updated and has been updated to use
 not null be default.
 
-The dart code viewer package is using the elevated button because it the 
+The dart code viewer package is using the elevated button because the 
 elevated button is in the new button Universe. This will make it easier to
 theme the buttons within the dart code viewer.
 
