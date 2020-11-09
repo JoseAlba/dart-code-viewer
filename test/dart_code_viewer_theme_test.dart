@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart_code_viewer_theme.dart';
-import 'prehighlighter.dart';
+import 'pre_highlighter.dart';
 
 class DartCodeViewer extends StatelessWidget {
   const DartCodeViewer(

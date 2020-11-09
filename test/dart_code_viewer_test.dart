@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart_code_viewer_theme.dart';
-import 'prehighlighter.dart';
+import 'pre_highlighter.dart';
 
 class DartCodeViewer extends StatelessWidget {
   const DartCodeViewer(
@@ -394,9 +394,7 @@ class _DartCodeViewerPage extends StatelessWidget {
   testWidgets('Dart Code Viewer Default', (WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: Scaffold(
-          body: DartCodeViewer(data)
-        ),
+        home: Scaffold(body: DartCodeViewer(data)),
       ),
     );
   });

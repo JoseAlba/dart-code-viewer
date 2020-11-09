@@ -1,7 +1,3 @@
-// Copyright 2019 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
@@ -58,7 +54,7 @@ import 'package:flutter/material.dart';
 ///    Numbers => numberStyle
 ///    Declarations => constantStyle
 @immutable
-class DartCodeViewerThemeData with Diagnosticable{
+class DartCodeViewerThemeData with Diagnosticable {
   const DartCodeViewerThemeData({
     this.baseStyle,
     this.classStyle,
@@ -73,23 +69,24 @@ class DartCodeViewerThemeData with Diagnosticable{
     this.showCopyButton,
     this.height,
     this.width,
+    this.buttonStyle,
   });
 
   /// The text style for the plain text in code.
-  final TextStyle baseStyle;
+  final TextStyle? baseStyle;
 
   /// The text style for the code types in the code.
   ///
   /// For example:
   /// * The class name.
   /// * StatelessWidget and StatefulWidget.
-  final TextStyle classStyle;
+  final TextStyle? classStyle;
 
   /// The text style for the commented out code.
-  final TextStyle commentStyle;
+  final TextStyle? commentStyle;
 
   /// The text style for the constant style code.
-  final TextStyle constantStyle;
+  final TextStyle? constantStyle;
 
   /// The text style for keywords. For example:
   /// * else
@@ -98,49 +95,54 @@ class DartCodeViewerThemeData with Diagnosticable{
   /// * external
   /// * factory
   /// * false
-  final TextStyle keywordStyle;
+  final TextStyle? keywordStyle;
 
   /// The text style for numbers within the code.
-  final TextStyle numberStyle;
+  final TextStyle? numberStyle;
 
   /// The text style for punctuation code like periods and commas.
-  final TextStyle punctuationStyle;
+  final TextStyle? punctuationStyle;
 
   /// The text style for Strings. For example the data when using the [Text] widget.
-  final TextStyle stringStyle;
+  final TextStyle? stringStyle;
 
   /// The background Color of the code. By default it is [Theme.of(context).colorScheme.background].
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// The text shown in the copy button by default it is 'COPY ALL'.
-  final Text copyButtonText;
+  final Text? copyButtonText;
 
   /// Shows copy button that lets user copy all the code as a raw string. By
   /// default the button is showing.
-  final bool showCopyButton;
+  final bool? showCopyButton;
 
   /// The height of the [DartCodeViewer] by default it uses the [MediaQuery.of(context).size.height]
-  final double height;
+  final double? height;
 
   /// The width of the [DartCodeViewer] by default it uses the [MediaQuery.of(context).size.width]
-  final double width;
+  final double? width;
+
+  /// The buttonThemeData for the [DartCodeViewer]. Useful if you want the copy
+  /// button to appear differently than the default.
+  final ButtonStyle? buttonStyle;
 
   /// Creates a copy of this object but with the given fields replaced with the
   /// new values.
   DartCodeViewerThemeData copyWith({
-    TextStyle baseStyle,
-    TextStyle classStyle,
-    TextStyle commentStyle,
-    TextStyle constantStyle,
-    TextStyle keywordStyle,
-    TextStyle numberStyle,
-    TextStyle punctuationStyle,
-    TextStyle stringStyle,
-    Color backgroundColor,
-    Text copyButtonText,
-    bool showCopyButton,
-    double height,
-    double width,
+    TextStyle? baseStyle,
+    TextStyle? classStyle,
+    TextStyle? commentStyle,
+    TextStyle? constantStyle,
+    TextStyle? keywordStyle,
+    TextStyle? numberStyle,
+    TextStyle? punctuationStyle,
+    TextStyle? stringStyle,
+    Color? backgroundColor,
+    Text? copyButtonText,
+    bool? showCopyButton,
+    double? height,
+    double? width,
+    ButtonStyle? buttonStyle,
   }) {
     return DartCodeViewerThemeData(
       baseStyle: baseStyle ?? this.baseStyle,
@@ -162,23 +164,27 @@ class DartCodeViewerThemeData with Diagnosticable{
   /// Linearly interpolate between two dart code viewer themes.
   ///
   /// The arguments must not be null.
-  static DartCodeViewerThemeData lerp(DartCodeViewerThemeData a, DartCodeViewerThemeData b, double t) {
-    assert (t != null);
-    if (a == null && b == null) {
-      return null;
-    }
+  static DartCodeViewerThemeData lerp(
+    DartCodeViewerThemeData a,
+    DartCodeViewerThemeData b,
+    double t,
+  ) {
     return DartCodeViewerThemeData(
-      baseStyle: TextStyle.lerp(a?.baseStyle, b?.baseStyle, t),
-      classStyle: TextStyle.lerp(a?.classStyle, b?.classStyle, t),
-      commentStyle: TextStyle.lerp(a?.commentStyle, b?.commentStyle, t),
-      constantStyle: TextStyle.lerp(a?.constantStyle, b?.constantStyle, t),
-      keywordStyle: TextStyle.lerp(a?.keywordStyle, b?.keywordStyle, t),
-      numberStyle: TextStyle.lerp(a?.numberStyle, b?.numberStyle, t),
-      punctuationStyle: TextStyle.lerp(a?.punctuationStyle, b?.punctuationStyle, t),
-      stringStyle: TextStyle.lerp(a?.stringStyle, b?.stringStyle, t),
-      backgroundColor: Color.lerp(a?.backgroundColor, b?.backgroundColor, t),
-      height: lerpDouble(a?.height, b?.height, t),
-      width: lerpDouble(a?.width, b?.width, t),
+      baseStyle: TextStyle.lerp(a.baseStyle, b.baseStyle, t),
+      classStyle: TextStyle.lerp(a.classStyle, b.classStyle, t),
+      commentStyle: TextStyle.lerp(a.commentStyle, b.commentStyle, t),
+      constantStyle: TextStyle.lerp(a.constantStyle, b.constantStyle, t),
+      keywordStyle: TextStyle.lerp(a.keywordStyle, b.keywordStyle, t),
+      numberStyle: TextStyle.lerp(a.numberStyle, b.numberStyle, t),
+      punctuationStyle: TextStyle.lerp(
+        a.punctuationStyle,
+        b.punctuationStyle,
+        t,
+      ),
+      stringStyle: TextStyle.lerp(a.stringStyle, b.stringStyle, t),
+      backgroundColor: Color.lerp(a.backgroundColor, b.backgroundColor, t),
+      height: lerpDouble(a.height, b.height, t),
+      width: lerpDouble(a.width, b.width, t),
     );
   }
 
@@ -203,43 +209,129 @@ class DartCodeViewerThemeData with Diagnosticable{
 
   @override
   bool operator ==(Object other) {
-    if (identical(this, other))
+    if (identical(this, other)) {
       return true;
-    if (runtimeType != other.runtimeType)
+    }
+    if (runtimeType != other.runtimeType) {
       return false;
-    return other is DartCodeViewerThemeData
-        && baseStyle == other.baseStyle
-        && classStyle == other.classStyle
-        && commentStyle == other.commentStyle
-        && constantStyle == other.constantStyle
-        && keywordStyle == other.keywordStyle
-        && numberStyle == other.numberStyle
-        && punctuationStyle == other.punctuationStyle
-        && stringStyle == other.stringStyle
-        && backgroundColor == other.backgroundColor
-        && copyButtonText == other.copyButtonText
-        && showCopyButton == other.showCopyButton
-        && height == other.height
-        && width == other.width;
+    }
+    return other is DartCodeViewerThemeData &&
+        baseStyle == other.baseStyle &&
+        classStyle == other.classStyle &&
+        commentStyle == other.commentStyle &&
+        constantStyle == other.constantStyle &&
+        keywordStyle == other.keywordStyle &&
+        numberStyle == other.numberStyle &&
+        punctuationStyle == other.punctuationStyle &&
+        stringStyle == other.stringStyle &&
+        backgroundColor == other.backgroundColor &&
+        copyButtonText == other.copyButtonText &&
+        showCopyButton == other.showCopyButton &&
+        height == other.height &&
+        width == other.width;
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<TextStyle>('baseStyle', baseStyle, defaultValue: null));
-    properties.add(DiagnosticsProperty<TextStyle>('classStyle', classStyle, defaultValue: null));
-    properties.add(DiagnosticsProperty<TextStyle>('commentStyle', commentStyle, defaultValue: null));
-    properties.add(DiagnosticsProperty<TextStyle>('constantStyle', constantStyle, defaultValue: null));
-    properties.add(DiagnosticsProperty<TextStyle>('keywordStyle', keywordStyle, defaultValue: null));
-    properties.add(DiagnosticsProperty<TextStyle>('numberStyle', numberStyle, defaultValue: null));
-    properties.add(DiagnosticsProperty<TextStyle>('punctuationStyle', punctuationStyle, defaultValue: null));
-    properties.add(DiagnosticsProperty<TextStyle>('stringStyle', stringStyle, defaultValue: null));
-    properties.add(DiagnosticsProperty<TextStyle>('stringStyle', stringStyle, defaultValue: null));
-    properties.add(DiagnosticsProperty<Color>('backgroundColor', backgroundColor, defaultValue: null));
-    properties.add(DiagnosticsProperty<Text>('copyButtonText', copyButtonText, defaultValue: null));
-    properties.add(DiagnosticsProperty<bool>('showCopyButton', showCopyButton, defaultValue: null));
-    properties.add(DiagnosticsProperty<double>('height', height, defaultValue: null));
-    properties.add(DiagnosticsProperty<double>('width', width, defaultValue: null));
+    properties.add(
+      DiagnosticsProperty<TextStyle>(
+        'baseStyle',
+        baseStyle,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<TextStyle>(
+        'classStyle',
+        classStyle,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<TextStyle>(
+        'commentStyle',
+        commentStyle,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<TextStyle>(
+        'constantStyle',
+        constantStyle,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<TextStyle>(
+        'keywordStyle',
+        keywordStyle,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<TextStyle>(
+        'numberStyle',
+        numberStyle,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<TextStyle>(
+        'punctuationStyle',
+        punctuationStyle,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<TextStyle>(
+        'stringStyle',
+        stringStyle,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<TextStyle>(
+        'stringStyle',
+        stringStyle,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<Color>(
+        'backgroundColor',
+        backgroundColor,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<Text>(
+        'copyButtonText',
+        copyButtonText,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<bool>(
+        'showCopyButton',
+        showCopyButton,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<double>(
+        'height',
+        height,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<double>(
+        'width',
+        width,
+        defaultValue: null,
+      ),
+    );
   }
 }
 
@@ -264,12 +356,10 @@ class DartCodeViewerTheme extends InheritedTheme {
   ///
   /// The [data] and [child] arguments must not be null.
   const DartCodeViewerTheme({
-    Key key,
-    @required this.data,
-    @required Widget child,
-  }) : assert(data != null),
-       assert(child != null),
-       super(key: key, child: child);
+    Key? key,
+    required this.data,
+    required Widget child,
+  }) : super(key: key, child: child);
 
   /// Specifies the color, size, and text styles for the descendant dart code
   /// viewer widgets.
@@ -315,15 +405,21 @@ class DartCodeViewerTheme extends InheritedTheme {
   ///    Numbers => numberStyle
   ///    Declarations => constantStyle
   static DartCodeViewerThemeData of(BuildContext context) {
-    final DartCodeViewerTheme dartCodeViewerTheme = context.dependOnInheritedWidgetOfExactType<DartCodeViewerTheme>();
+    final dartCodeViewerTheme =
+        context.dependOnInheritedWidgetOfExactType<DartCodeViewerTheme>();
     return dartCodeViewerTheme?.data ?? DartCodeViewerThemeData();
   }
 
   @override
   Widget wrap(BuildContext context, Widget child) {
-    final DartCodeViewerTheme ancestorTheme = context.findAncestorWidgetOfExactType<DartCodeViewerTheme>();
-    return identical(this, ancestorTheme) ? child : DartCodeViewerTheme(data: data, child: child);
+    final ancestorTheme =
+        context.findAncestorWidgetOfExactType<DartCodeViewerTheme>();
+    return identical(this, ancestorTheme)
+        ? child
+        : DartCodeViewerTheme(data: data, child: child);
   }
 
-  bool updateShouldNotify(DartCodeViewerTheme oldWidget) => data != oldWidget.data;
+  @override
+  bool updateShouldNotify(DartCodeViewerTheme oldWidget) =>
+      data != oldWidget.data;
 }

@@ -1,15 +1,14 @@
 name: dart_code_viewer
 description: A package to view Dart Code in your Flutter application.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/JoseAlba/dart-code-viewer/
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  google_fonts: ^0.4.0
   string_scanner: ^1.0.5
 
 dev_dependencies:
