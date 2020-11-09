@@ -300,38 +300,38 @@ class DartCodeViewer extends StatelessWidget {
   Widget build(BuildContext context) {
     final codeTextStyle = Theme.of(context).textTheme.bodyText1;
 
-    var lightModeOn = Theme.of(context).brightness == Brightness.light;
+    final lightModeOn = Theme.of(context).brightness == Brightness.light;
 
     // These are defaults for the different types of text styles. The default
     // returns two different types of styles depending on the brightness of the
     // application.
-    var _defaultBaseStyle = codeTextStyle?.copyWith(
+    final _defaultBaseStyle = codeTextStyle?.copyWith(
       color: lightModeOn ? Colors.blueGrey.shade800 : Colors.blueGrey.shade50,
     );
-    var _defaultClassStyle = codeTextStyle?.copyWith(
+    final _defaultClassStyle = codeTextStyle?.copyWith(
       color: lightModeOn ? Colors.purple.shade500 : Colors.purple.shade200,
     );
-    var _defaultCommentStyle = codeTextStyle?.copyWith(
+    final _defaultCommentStyle = codeTextStyle?.copyWith(
       color: lightModeOn ? Colors.pink.shade600 : Colors.pink.shade300,
     );
-    var _defaultConstantStyle = codeTextStyle?.copyWith(
+    final _defaultConstantStyle = codeTextStyle?.copyWith(
       color: lightModeOn ? Colors.indigo.shade500 : Colors.yellow.shade700,
     );
-    var _defaultKeywordStyle = codeTextStyle?.copyWith(
+    final _defaultKeywordStyle = codeTextStyle?.copyWith(
       color: lightModeOn ? Colors.indigo.shade500 : Colors.cyan.shade300,
     );
-    var _defaultNumberStyle = codeTextStyle?.copyWith(
+    final _defaultNumberStyle = codeTextStyle?.copyWith(
       color: lightModeOn ? Colors.red.shade700 : Colors.yellow.shade700,
     );
-    var _defaultPunctuationalStyle = codeTextStyle?.copyWith(
+    final _defaultPunctuationalStyle = codeTextStyle?.copyWith(
       color: lightModeOn ? Colors.blueGrey.shade800 : Colors.blueGrey.shade50,
     );
-    var _defaultStringStyle = codeTextStyle?.copyWith(
+    final _defaultStringStyle = codeTextStyle?.copyWith(
       color: lightModeOn ? Colors.green.shade700 : Colors.lightGreen.shade400,
     );
 
-    var _defaultCopyButtonText = Text('COPY ALL');
-    var _defaultShowCopyButton = true;
+    final _defaultCopyButtonText = Text('COPY ALL');
+    final _defaultShowCopyButton = true;
 
     var dartCodeViewerThemeData = DartCodeViewerTheme.of(context);
     dartCodeViewerThemeData = dartCodeViewerThemeData.copyWith(
@@ -393,7 +393,7 @@ class DartCodeViewer extends StatelessWidget {
     String content,
     DartCodeViewerThemeData dartCodeViewerThemeData,
   ) {
-    var textSpans = <TextSpan>[];
+    final textSpans = <TextSpan>[];
     final codeSpans = DartSyntaxPreHighlighter().format(content);
     // Converting CodeSpan to TextSpan by first converting to a string and then TextSpan.
     for (final span in codeSpans) {
@@ -410,7 +410,7 @@ class DartCodeViewer extends StatelessWidget {
       style: () {
         final String? styleString =
             RegExp(r'codeStyle.\w*').firstMatch(string)?.group(0);
-        var dartCodeViewerTheme = dartCodeViewerThemeData;
+        final dartCodeViewerTheme = dartCodeViewerThemeData;
 
         switch (styleString) {
           case 'codeStyle.baseStyle':
@@ -434,8 +434,8 @@ class DartCodeViewer extends StatelessWidget {
         }
       }(),
       text: () {
-        var textString = RegExp('\'.*\'').firstMatch(string)?.group(0);
-        var subString = textString!.substring(1, textString.length - 1);
+        final textString = RegExp('\'.*\'').firstMatch(string)?.group(0);
+        final subString = textString!.substring(1, textString.length - 1);
         return decodeString(subString);
       }(),
     );
